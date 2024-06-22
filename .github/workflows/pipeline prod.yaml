@@ -19,6 +19,9 @@ jobs:
     if: ${{ github.event_name != 'pull_request' }}
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
+    outputs:
+      api_tag: ${{ steps.meta.outputs.version }}
+      web_tag: ${{ steps.web.outputs.version }}
     permissions:
       packages: write
       contents: read
@@ -87,6 +90,6 @@ jobs:
 
       - name: Check out the repo
         uses: actions/checkout@v4
-      
+        
       - name: Helm deploy
-        run: helm upgrade wordsmith-stage ./Helm/wordsmith --set-string web.tag=${{ fromJSON(steps.web.outputs.json).labels['org.opencontainers.image.version'] }} --set-string api.tag=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.version'] }} --namespace ws-prod --install --create-namespace
+        run: helm upgrade wordsmith-prod ./Helm/wordsmith --set-string web.tag=${{ needs.push_to_registry.outputs.web_tag }} --set-string api.tag=${{ needs.push_to_registry.outputs.api_tag }} --namespace ws-prod --install --create-namespace
