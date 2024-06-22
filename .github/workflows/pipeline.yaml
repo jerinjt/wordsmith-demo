@@ -16,6 +16,12 @@ env:
   OCI_CLI_REGION: ${{ secrets.OCI_CLI_REGION }}
 
 jobs:
+  unit-testing:
+    name: Unit Testing
+    steps:
+      - name: Run unit testing
+        run: echo " Run Unit testing"
+
   build:
     name: Build and analyze
     runs-on: ubuntu-latest
