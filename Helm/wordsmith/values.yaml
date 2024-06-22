@@ -1,0 +1,18 @@
+db:
+  image: postgres
+  tag: 10.0-alpine
+  port: 5432
+  targetPort: 5432
+
+web:
+  image: dockersamples/wordsmith-web
+  tag: latest
+  port: 8080
+  targetPort: 80
+
+api:
+  image: dockersamples/wordsmith-api
+  tag: latest
+  port: 8080
+  targetPort: 8080
+  replicas: 5

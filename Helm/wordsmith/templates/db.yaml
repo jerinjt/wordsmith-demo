@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: "{{ include "wordsmith.fullname" . }}-db"
+  labels:
+    app: db
+    {{- include "wordsmith.labels" . | nindent 4 }}
+spec:
+  ports:
+    - port: {{ .Values.db.port }}
+      targetPort: {{ .Values.db.targetPort }}
+      name: db
+  selector:
+    app: db
+    {{- include "wordsmith.selectorLabels" . | nindent 4 }}
+  clusterIP: None
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ include "wordsmith.fullname" . }}-db"
+  labels:
+    app: db
+    {{- include "wordsmith.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      app: db
+      {{- include "wordsmith.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        app: db
+        {{- include "wordsmith.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: db
+          image: "{{ .Values.db.image }}:{{ .Values.db.tag }}"
+          ports:
+            - containerPort: {{ .Values.db.port }}
+              name: db
+          volumeMounts:
+            - name: db-schema
+              mountPath: /docker-entrypoint-initdb.d
+      volumes:
+        - name: db-schema
+          configMap:
+            name: db-schema

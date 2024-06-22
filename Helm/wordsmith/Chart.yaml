@@ -1,0 +1,4 @@
+name: wordsmith
+version: 1.0.0
+description: A Helm chart for the Wordsmith demo application
+AppVersion: 1.0.0
