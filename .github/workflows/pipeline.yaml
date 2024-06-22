@@ -47,11 +47,8 @@ jobs:
         run: mvn -f ./api/pom.xml -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=demo-project -Dsonar.projectName='demo-project'
       - name: Check SonarQube Quality Gate
         run: |
-          STATUS=$(curl -u ${{ secrets.SONAR_TOKEN }}: \
-            "https://sonarcloud.io/api/qualitygates/project_status?projectKey=demo-project" \
-            | jq -r '.projectStatus.status')
-          echo "$STATUS"
-          if [ "$STATUS" != "OK" ]; then
+          STATUS=$(curl -s "http://129.150.35.183:9000/api/project_badges/measure?project=demo-project&metric=alert_status&token=${{ secrets.SONAR_TOKEN }}" | grep -oP '(?<=<text x="103" y="14" textLength="39">)[^<]+')
+          if [ "$STATUS" != "passed" ]; then
             echo "Quality gate failed!"
             exit 1
           else
