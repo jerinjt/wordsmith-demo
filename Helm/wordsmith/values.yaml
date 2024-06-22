@@ -5,14 +5,14 @@ db:
   targetPort: 5432
 
 web:
-  image: dockersamples/wordsmith-web
-  tag: latest
+  image: shivin8080/demo-web
+  tag: main
   port: 8080
   targetPort: 80
 
 api:
-  image: dockersamples/wordsmith-api
-  tag: latest
+  image: shivin8080/demo-api
+  tag: main
   port: 8080
   targetPort: 8080
   replicas: 5
