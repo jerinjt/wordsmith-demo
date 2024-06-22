@@ -87,7 +87,6 @@ jobs:
 
       - name: Check out the repo
         uses: actions/checkout@v4
-      - name: Deploy
-        uses: WyriHaximus/github-action-helm3@v3
-        with:
-          exec:  helm upgrade wordsmith-stage ./Helm/wordsmith --set-string web.tag=${{ fromJSON(steps.web.outputs.json).labels['org.opencontainers.image.version'] }} --set-string api.tag=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.version'] }} --namespace ws-stage --install --create-namespace
+        
+      - name: Helm deploy
+        run: helm upgrade wordsmith-stage ./Helm/wordsmith --set-string web.tag=${{ steps.web.outputs.version }} --set-string api.tag=${{ steps.meta.outputs.version }} --namespace ws-stage --install --create-namespace
