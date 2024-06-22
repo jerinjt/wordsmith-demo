@@ -46,7 +46,17 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         run: mvn -f ./api/pom.xml -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=demo-project -Dsonar.projectName='demo-project'
-
+      - name: Check SonarQube Quality Gate
+        run: |
+          STATUS=$(curl -u ${{ secrets.SONAR_TOKEN }}: \
+            "https://sonarcloud.io/api/qualitygates/project_status?projectKey=demo-project" \
+            | jq -r '.projectStatus.status')
+          if [ "$STATUS" != "OK" ]; then
+            echo "Quality gate failed!"
+            exit 1
+          else
+            echo "Quality gate passed!"
+          fi
   push_to_registry:
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
