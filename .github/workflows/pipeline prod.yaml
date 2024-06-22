@@ -85,4 +85,4 @@ jobs:
         uses: actions/checkout@v4
       
       - name: Helm deploy
-        run: helm upgrade wordsmith-stage ./Helm/wordsmith --set-string web.tag=${{ fromJSON(steps.web.outputs.json).labels['org.opencontainers.image.version'] }} --set-string api.tag=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.version'] }} --namespace ws-stage --install --create-namespace
+        run: helm upgrade wordsmith-stage ./Helm/wordsmith --set-string web.tag=${{ fromJSON(steps.web.outputs.json).labels['org.opencontainers.image.version'] }} --set-string api.tag=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.version'] }} --namespace ws-prod --install --create-namespace
