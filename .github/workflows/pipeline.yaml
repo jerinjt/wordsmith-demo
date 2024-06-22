@@ -119,5 +119,9 @@ jobs:
 
       - name: Run Kubectl
         run: kubectl get nodes -A
+
+      - name: Check out the repo
+        uses: actions/checkout@v4
+      
       - name: Helm deploy
         run: helm upgrade wordsmith-dev ./Helm/wordsmith --namespace ws-dev --install --create-namespace
