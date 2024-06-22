@@ -56,6 +56,7 @@ jobs:
           fi
 
   push_to_registry:
+    if: ${{ github.event_name != 'pull_request' }}
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
     needs: build
@@ -107,6 +108,7 @@ jobs:
           labels: ${{ steps.web.outputs.labels }}
 
   install-kubectl:
+    if: ${{ github.event_name != 'pull_request' }}
     name: Install Kubectl for OKE
     runs-on: ubuntu-latest
     needs: push_to_registry
