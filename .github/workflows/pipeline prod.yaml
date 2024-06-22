@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     tags: # e.g., v1.2.3
-    - 'stage[0-9]+.[0-9]+.[0-9]+'
+    - 'prod[0-9]+.[0-9]+.[0-9]+'
 
 env:
   OCI_CLI_USER: ${{ secrets.OCI_CLI_USER }}
