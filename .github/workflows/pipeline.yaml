@@ -18,6 +18,7 @@ env:
 jobs:
   unit-testing:
     name: Unit Testing
+    runs-on: ubuntu-latest
     steps:
       - name: Run unit testing
         run: echo " Run Unit testing"
